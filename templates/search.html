@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="search-section">
+        <h2>搜尋股票</h2>
+        <form action="{{ url_for('search') }}" method="post">
+            <label for="stock_code">股票代碼：</label>
+            <input type="text" id="stock_code" name="stock_code" required>
+            <button type="submit">搜尋</button>
+        </form>
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+        {% if stock_data %}
+            <div class="stock-details">
+                <h3>股票資料</h3>
+                <p>股票代碼：{{ stock_code }}</p>
+                <p>價格：{{ stock_data.c }}</p>
+                <p>當日漲幅：{{ stock_data.d }}</p>
+                <p>最高價：{{ stock_data.h }}</p>
+                <p>最低價：{{ stock_data.l }}</p>
+                <button onclick="buyStock('{{ stock_code }}', {{ stock_data.c }})">購買</button>
+                <canvas id="stockChart"></canvas>
+                <script>
+                    const ctx = document.getElementById('stockChart').getContext('2d');
+                    const chart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ['最高價', '最低價', '開盤價', '現價'],
+                            datasets: [{
+                                label: '股票價格',
+                                data: [{{ stock_data.h }}, {{ stock_data.l }}, {{ stock_data.o }}, {{ stock_data.c }}],
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                fill: false,
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                x: {
+                                    display: true,
+                                    title: {
+                                        display: true,
+                                        text: '指標'
+                                    }
+                                },
+                                y: {
+                                    display: true,
+                                    title: {
+                                        display: true,
+                                        text: '價格'
+                                    }
+                                }
+                            }
+                        }
+                    });
+                </script>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
