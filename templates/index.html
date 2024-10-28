@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="welcome-section">
+        <h2>歡迎使用台股模擬購買網站</h2>
+        <p>請設定您的初始資金，然後開始搜尋並購買股票。</p>
+        <form action="{{ url_for('settings') }}" method="post">
+            <label for="initial_funds">初始資金：</label>
+            <input type="number" id="initial_funds" name="initial_funds" required>
+            <button type="submit">設定</button>
+        </form>
+    </div>
+{% endblock %}
