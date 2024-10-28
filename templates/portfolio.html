@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="portfolio-section">
+        <h2>已購買股票</h2>
+        {% if portfolio_data %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>股票代碼</th>
+                        <th>當日漲幅</th>
+                        <th>張數</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock_code, stock in portfolio_data.items() %}
+                        <tr>
+                            <td>{{ stock_code }}</td>
+                            <td>{{ stock.change }}</td>
+                            <td>
+                                <button onclick="buyStock('{{ stock_code }}', {{ stock.price }})">增加張數</button>
+                                <span>{{ stock.quantity }}</span>
+                                <button onclick="sellStock('{{ stock_code }}')">減少張數</button>
+                            </td>
+                            <td>
+                                <button onclick="sellAllStocks('{{ stock_code }}')">賣出</button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>尚未購買任何股票。</p>
+        {% endif %}
+    </div>
+{% endblock %}
