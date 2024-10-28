@@ -9,6 +9,7 @@ app = Flask(__name__)
 # Initialize API key and base URL for stock data
 FINNHUB_API_KEY = os.getenv('FINNHUB_API_KEY')
 FINNHUB_API_URL = 'https://finnhub.io/api/v1'
+FINNHUB_SECRET = os.getenv('FINNHUB_SECRET')
 
 # Store user data
 user_data = {
@@ -25,8 +26,11 @@ def index():
 def search():
     if request.method == 'POST':
         stock_code = request.form.get('stock_code')
+        headers = {
+                'X-Finnhub-Secret': FINNHUB_SECRET  # 添加此头部
+            }
         if stock_code:
-            response = requests.get(f'{FINNHUB_API_URL}/quote?symbol={stock_code}.TW&token={FINNHUB_API_KEY}')
+            response = requests.get(f'{FINNHUB_API_URL}/quote?symbol={stock_code}.TW&token={FINNHUB_API_KEY}', headers=headers)
             stock_data = response.json()
             if 'c' in stock_data:
                 return render_template('search.html', stock_data=stock_data, stock_code=stock_code, user_data=user_data)
