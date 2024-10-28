@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台股模擬購買</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}" defer></script>
+</head>
+<body>
+    <header>
+        <h1>台股模擬購買網站</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('index') }}">首頁</a></li>
+                <li><a href="{{ url_for('search') }}">搜尋股票</a></li>
+                <li><a href="{{ url_for('settings') }}">設定</a></li>
+                <li><a href="{{ url_for('portfolio') }}">已購買股票</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="funds-info">
+        <p>初始資金：<span id="initial-funds">{{ user_data.initial_funds }}</span></p>
+        <p>現有資金：<span id="current-funds">{{ user_data.current_funds }}</span></p>
+    </div>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 台股模擬購買網站</p>
+    </footer>
+</body>
+</html>
